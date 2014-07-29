@@ -22,9 +22,9 @@ Comment: " . $comment_text . "
 Date of Visit: " . $date . "
 Status: " . $status . " 
 
-***To reply to a comment:
-o	Login Cantor Arts Center Visitor Comment Database, 
-	  https://www.stanford.edu/dept/suma/cgi-bin/comment_db/
+***If comment needs action:
+o	Login to the Cantor Arts Center Visitor Comment Database, 
+	  https://www.stanford.edu/dept/suma/cgi-bin/comment_db/comment.php?commentID=" . $comment_id . "
 o	Respond directly to the visitor from your personal email
 o	Update the status of the comment from “Action required” to “Issue Solved”
 Thank you. We hope you have a wonderful day.

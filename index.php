@@ -128,7 +128,6 @@
       $last_insert_id_result = $db->query("select last_insert_rowid()");
       $comment_id;
       foreach($last_insert_id_result as $id) {
-        echo "<h1>TEST :" . $id[0] . "</h1`>";
         $comment_id = $id[0];
       }
       $db->commit();
