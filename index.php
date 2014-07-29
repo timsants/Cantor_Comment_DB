@@ -12,11 +12,11 @@
   <div class="col-md-4 col-md-offset-1">
   <h3>Enter New Comment Card</h3>
   <br>
-  <div class="alert alert-warning" role="alert" id="alert_message" style="display:none"></div>
-  <br>
-  <br>
+  <div class="alert alert-warning" role="alert" id="alert_message_warning" style="display:none"></div>
+  <div class="alert alert-success" role="alert" id="alert_message_success" style="display:none"></div>
+  <div style="padding-top:20px">
   <form role="form" method="POST">
-    <div class="form-group">
+    <div class="form-group ">
       <label for="dateinput">Date of Visit</label>
 	     <input class="form-control" id="dateinput" type="date" name="date">
     </div>
@@ -82,29 +82,35 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="assigneeinput">Assignee</label>
+      <label for="assigneeinput">Assignee Name</label>
       <input class="form-control" type="text" id="assigneeinput" name="assignee">
-	   </div>
-    <br>
+	</div>
+	
+	<div class="form-group">
+      <label for="assignee_email_input">Assignee Email (Notification will be sent once logged)</label>
+      <input class="form-control" type="email" id="assignee_email_input" name="assignee_email">
+	</div>
+    
     <div class="form-group">
-      <label for="staffcontactinput">Staff Contacted</label>
+      <label for="staffcontactinput">Date Staff Contacted</label>
 	     <input class="form-control" id="staffcontactinput" type="date" name="staffcontactdate">
     </div>
     <div class="form-group">
-      <label for="stafffollowupinput">Staff Followed Up</label>
+      <label for="stafffollowupinput">Date Staff Followed Up</label>
 	     <input class="form-control" id="stafffollowupinput" type="date" name="stafffollowupdate">
     </div>
     <button type="submit" class="btn btn-default">Log Comment</button>
   </form>
+  </div>
   </div>
 </div>
 
 
 <?php	
 	 error_reporting();
-  if($_POST["comment"]) {
+  if(isset($_POST["comment"]) and "" != trim($_POST["comment"])) {
     $date = $_POST["date"];
-    $commenttext = $_POST["comment"];
+    $comment_text = $_POST["comment"];
     $name = $_POST["name"];
     $telephone = $_POST["telephone"];
     $email = $_POST["email"];
@@ -112,25 +118,37 @@
     $department = $_POST["department"];
     $category = $_POST["category"];
     $assignee = $_POST["assignee"];
+    $assignee_email = $_POST["assignee_email"];
     $contact_date = $_POST["staffcontactdate"];
     $follow_up_date = $_POST["stafffollowupdate"];
-    $query = "insert into Comments(Date, CommentText, Name, Telephone, Email, Status, Department, Category, Assignee, ContactDate, FollowUpDate) values( \"" . $date . "\", \"" . $commenttext . "\", \"" . $name . "\", \"". $telephone . "\", \"" . $email . "\", \"" . $status . "\", \"" . $department . "\", \"" . $category . "\", \"" . $assignee . "\", \"" . $contact_date . "\", \"" . $follow_up_date . "\")";
+    $query = "insert into Comments(Date, CommentText, Name, Telephone, Email, Status, Department, Category, Assignee, AssigneeEmail, ContactDate, FollowUpDate) values( \"" . $date . "\", \"" . $comment_text . "\", \"" . $name . "\", \"". $telephone . "\", \"" . $email . "\", \"" . $status . "\", \"" . $department . "\", \"" . $category . "\", \"" . $assignee . "\", \"" . $assignee_email . "\", \"" . $contact_date . "\", \"" . $follow_up_date . "\")";
     try {
       $db->beginTransaction();
       $result = $db->query($query);
+      $last_insert_id_result = $db->query("select last_insert_rowid()");
+      $comment_id;
+      foreach($last_insert_id_result as $id) {
+        echo "<h1>TEST :" . $id[0] . "</h1`>";
+        $comment_id = $id[0];
+      }
       $db->commit();
       //send notification to assigned person
 	  include ('./mail_notification.php');
+	  
+	  echo '<script type="text/javascript">';
+	  echo 'alert_div = document.getElementById("alert_message_success");';
+	  echo 'alert_div.style.display="initial";';
+	  echo 'alert_div.innerHTML = "Comment successfully logged";';
+	  echo '</script>';
     } catch (Exception $e) {
       echo 'Caught exception: ',  $e->getMessage(), "\n";
 	}
     $db = null;
   } else if(isset($_POST["comment"]) and "" == trim($_POST["comment"])) {
 	echo '<script type="text/javascript">';
-	echo 'alert_div = document.getElementById("alert_message");';
+	echo 'alert_div = document.getElementById("alert_message_warning");';
 	echo 'alert_div.style.display="initial";';
-	echo 'alert_div.innerHTML = "Please enter TEXT";';
-	
+	echo 'alert_div.innerHTML = "Comment field empty!";';
 	echo '</script>';
   }
 ?>

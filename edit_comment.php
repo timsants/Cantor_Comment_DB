@@ -28,14 +28,16 @@
     $department = $_POST["department"];
     $category = $_POST["category"];
     $assignee = $_POST["assignee"];
+    $assignee_email = $_POST["assignee_email"];
     $contact_date = $_POST["contact_date"];
     $follow_up_date = $_POST["follow_up_date"];
     $query = "update Comments set Date=\"" . $date . "\", CommentText=\"" . 
     			$commenttext . "\", Name=\"" . $name . "\", Telephone=\"". 
     			$telephone . "\", Email=\"" . $email . "\", Status=\"" . 
     			$status . "\", Department=\"" . $department . "\", Category=\"" . 
-    			$category . "\", Assignee=\"" . $assignee . "\", ContactDate=\"" . 
-    			$contact_date . "\", FollowUpDate=\"" . $follow_up_date . "\"
+    			$category . "\", Assignee=\"" . $assignee . "\", AssigneeEmail=\"" . 
+    			$assignee_email . "\", ContactDate=\"" . $contact_date . 
+    			"\", FollowUpDate=\"" . $follow_up_date . "\"
               where CommentID=" . $commentID;
     try {
       $db->beginTransaction();
@@ -63,6 +65,7 @@
       $telephone = $row["Telephone"];
       $email = $row["Email"];
       $assignee = $row["Assignee"];
+      $assignee_email = $row["AssigneeEmail"];
       $department = $row["Department"];
       $contact_date = $row["ContactDate"];
       $follow_up_date = $row["FollowUpDate"];
@@ -95,6 +98,8 @@
       echo "</select>";
       echo "</br><strong>Staff Contacted</strong>";
       echo "</br><input type=\"date\" name=\"contact_date\" value=\"" . $contact_date . "\">";
+       echo "</br><strong>Staff Followed Up</strong>";
+      echo "</br><input type=\"date\" name=\"follow_up_date\" value=\"" . $follow_up_date . "\">";
       echo "</div>";
       echo "<div class=\"col-md-2\">";
       echo "<strong>Department</strong>";
@@ -131,8 +136,10 @@
       echo "</select>";
       echo "</br><strong>Assigned</strong>";
       echo "</br><input type=\"text\" name=\"assignee\" value=\"" . $assignee . "\">";
-      echo "</br><strong>Staff Followed Up</strong>";
-      echo "</br><input type=\"date\" name=\"follow_up_date\" value=\"" . $follow_up_date . "\">";
+      
+      echo "</br><strong>Assignee Email</strong>";
+      echo "</br><input type=\"text\" name=\"assignee_email\" value=\"" . $assignee_email . "\">";
+      
       echo "</div>";
       echo "</div>";
       echo "<div class=\"row\">";

@@ -29,6 +29,7 @@
       $telephone = $row["Telephone"];
       $email = $row["Email"];
       $assignee = $row["Assignee"];
+      $assignee_email = $row["AssigneeEmail"];
       $department = $row["Department"];
       $contact_date = $row["ContactDate"];
       $follow_up_date = $row["FollowUpDate"];
@@ -47,6 +48,8 @@
       echo "<p>" . $status . "</p>";
       echo "<strong>Staff Contacted</strong>";
       echo "<p>" . $contact_date . "</p>";
+      echo "<strong>Staff Followed Up</strong>";
+      echo "<p>" . $follow_up_date . "</p>";
       echo "</div>";
       echo "<div class=\"col-md-2\">";
       echo "<strong>Department</strong>";
@@ -55,8 +58,8 @@
       echo "<p>" . $category . "</p>";
       echo "<strong>Assigned</strong>";
       echo "<p>" . $assignee . "</p>";
-      echo "<strong>Staff Followed Up</strong>";
-      echo "<p>" . $follow_up_date . "</p>";
+      echo "<strong>Assignee Email</strong>";
+      echo "<p>" . $assignee_email . "</p>";
       echo "</div>";
       echo "</div>";
       echo "<div class=\"row\">";
