@@ -10,7 +10,10 @@
 
 <div class="row">
   <div class="col-md-4 col-md-offset-1">
-  <h3>New Comment Card</h3>
+  <h3>Enter New Comment Card</h3>
+  <br>
+  <div class="alert alert-warning" role="alert" id="alert_message" style="display:none"></div>
+  <br>
   <br>
   <form role="form" method="POST">
     <div class="form-group">
@@ -116,10 +119,19 @@
       $db->beginTransaction();
       $result = $db->query($query);
       $db->commit();
+      //send notification to assigned person
+	  include ('./mail_notification.php');
     } catch (Exception $e) {
       echo 'Caught exception: ',  $e->getMessage(), "\n";
 	}
     $db = null;
+  } else if(isset($_POST["comment"]) and "" == trim($_POST["comment"])) {
+	echo '<script type="text/javascript">';
+	echo 'alert_div = document.getElementById("alert_message");';
+	echo 'alert_div.style.display="initial";';
+	echo 'alert_div.innerHTML = "Please enter TEXT";';
+	
+	echo '</script>';
   }
 ?>
 </body>
