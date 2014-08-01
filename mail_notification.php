@@ -4,7 +4,7 @@ if("" != trim($assignee_email)) {
    
 $sender_name = "Cantor Arts Visitor Comments"; //senders name 
 $email = "cantorartsvisitorcomments@gmail.com"; //senders e-mail adress 
-$recipient = "timsants@gmail.com"; //recipient 
+$recipient = $assignee_email; //recipient 
 $mail_body = "Dear " .  $assignee  . ":
 
 You are receiving this message because a visitor to the Cantor Arts Center has submitted 

@@ -87,8 +87,10 @@
 	</div>
 	
 	<div class="form-group">
-      <label for="assignee_email_input">Assignee Email (Notification will be sent once logged)</label>
-      <input class="form-control" type="email" id="assignee_email_input" name="assignee_email">
+      <label for="assignee_email_input">Assignee Email Address</label>
+      <input class="form-control" type="email" id="assignee_email_input" name="assignee_email">	
+      <input type="checkbox" name="send_notification">
+      <label for="send_notification">Check to send an email notification to assignee</label>
 	</div>
     
     <div class="form-group">
@@ -119,6 +121,7 @@
     $category = $_POST["category"];
     $assignee = $_POST["assignee"];
     $assignee_email = $_POST["assignee_email"];
+    $send_notification = isset($_POST["send_notification"]);
     $contact_date = $_POST["staffcontactdate"];
     $follow_up_date = $_POST["stafffollowupdate"];
     $query = "insert into Comments(Date, CommentText, Name, Telephone, Email, Status, Department, Category, Assignee, AssigneeEmail, ContactDate, FollowUpDate) values( \"" . $date . "\", \"" . $comment_text . "\", \"" . $name . "\", \"". $telephone . "\", \"" . $email . "\", \"" . $status . "\", \"" . $department . "\", \"" . $category . "\", \"" . $assignee . "\", \"" . $assignee_email . "\", \"" . $contact_date . "\", \"" . $follow_up_date . "\")";
@@ -132,7 +135,9 @@
       }
       $db->commit();
       //send notification to assigned person
-	  include ('./mail_notification.php');
+      if($send_notification) {
+	    include ('./mail_notification.php');
+	  }
 	  
 	  echo '<script type="text/javascript">';
 	  echo 'alert_div = document.getElementById("alert_message_success");';

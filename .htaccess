@@ -1,2 +1,8 @@
-AuthType WebAuth
-require user tsantos abryan1 ksiliang
+AuthUserFile /afs/ir/dept/suma/cgi-bin/comment_db/.htpasswd
+AuthName ByPassword
+AuthType Basic
+
+order deny,allow
+deny from all
+allow from all
+require valid-user 

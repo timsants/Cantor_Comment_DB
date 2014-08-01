@@ -17,7 +17,7 @@
 
 <?php	
 	 error_reporting();
-  if($_POST["comment"]) {
+  if(isset($_POST["comment"]) and "" != trim($_POST["comment"])) {
     $commentID = $_POST["commentID"];
     $date = $_POST["date"];
     $commenttext = $_POST["comment"];
@@ -43,9 +43,25 @@
       $db->beginTransaction();
       $result = $db->query($query);
       $db->commit();
+      echo '<div class="alert alert-success" role="alert" id="alert_message_success">
+      		Changes successfully saved</div>';
     } catch (Exception $e) {
       echo 'Caught exception: ',  $e->getMessage(), "\n";
 	}
+  } else if (isset($_POST["delete"])) {
+  	$commentID = $_POST["commentID"];
+    $query = "delete from Comments where CommentID=" . $commentID;
+    try {
+    	$db->beginTransaction();
+       	$result = $db->query($query);
+       	$db->commit();
+       	echo '<div class="alert alert-success" role="alert" id="alert_message_success">
+      		Comment successfully deleted</div>';
+      
+     } catch (Exception $e) {
+       	echo 'Caught exception: ',  $e->getMessage(), "\n";
+	 }
+     	exit;
   }
 ?>
 
@@ -71,22 +87,22 @@
       $follow_up_date = $row["FollowUpDate"];
       $category = $row["Category"];
       echo "<form role=\"form\" method=\"POST\">";
-      echo "</br><input type=\"hidden\" name=\"commentID\" value=\"" . $commentID . "\">";
+      echo "<br><input type=\"hidden\" name=\"commentID\" value=\"" . $commentID . "\">";
       echo "<div class=\"row\">";
       echo "<div class=\"col-md-4\">";
       echo "<strong>Vistor info</strong>";
-      echo "</br><input type=\"text\" name=\"name\" value=\"" . $name . "\">";
-      echo "</br><strong>Email</strong>";
-      echo "</br><input type=\"text\" name=\"email\" value=\"" . $email . "\">";
-      echo "</br><strong>Telephone #</strong>";
-      echo "</br><input type=\"text\" name=\"telephone\" value=\"" . $telephone . "\">";
+      echo "<br><input type=\"text\" name=\"name\" value=\"" . $name . "\">";
+      echo "<br><strong>Email</strong>";
+      echo "<br><input type=\"text\" name=\"email\" value=\"" . $email . "\">";
+      echo "<br><strong>Telephone #</strong>";
+      echo "<br><input type=\"text\" name=\"telephone\" value=\"" . $telephone . "\">";
       echo "</div>";
       echo "<div class=\"col-md-2\">";
       echo "<strong>Date of visit</strong>";
-      echo "</br><input type=\"date\" name=\"date\" value=\"" . $date . "\">";
-      echo "<strong>Status</strong>";
+      echo "<br><input type=\"date\" name=\"date\" value=\"" . $date . "\">";
+      echo "<br><strong>Status</strong>";
       $statuses = array("No action necessary", "Action required", "Contact visitor", "Issue solved", "In progress");
-      echo "</br><select name=\"status\">";
+      echo "<br><select name=\"status\">";
       foreach ($statuses as $stat) {
         if ($status == $stat)
         {
@@ -96,10 +112,10 @@
       	}
       }
       echo "</select>";
-      echo "</br><strong>Staff Contacted</strong>";
-      echo "</br><input type=\"date\" name=\"contact_date\" value=\"" . $contact_date . "\">";
-       echo "</br><strong>Staff Followed Up</strong>";
-      echo "</br><input type=\"date\" name=\"follow_up_date\" value=\"" . $follow_up_date . "\">";
+      echo "<br><strong>Staff Contacted</strong>";
+      echo "<br><input type=\"date\" name=\"contact_date\" value=\"" . $contact_date . "\">";
+      echo "<br><strong>Staff Followed Up</strong>";
+      echo "<br><input type=\"date\" name=\"follow_up_date\" value=\"" . $follow_up_date . "\">";
       echo "</div>";
       echo "<div class=\"col-md-2\">";
       echo "<strong>Department</strong>";
@@ -154,8 +170,14 @@
         <div class=\"col-md-4\">
           <input type=\"hidden\" name=\"commentID\" value=\"" . $commentID . "\"/> 
           <button type=\"submit\" class=\"btn btn-default\">Save</button>
-      </form>
-      </div>";
+        </div>
+        </form>
+        <form role=\"form\" method=\"POST\">
+          <input type=\"hidden\" name=\"commentID\" value=\"" . $commentID . "\"/> 
+          <input type=\"hidden\" name=\"delete\"/> 
+          <button type=\"submit\" class=\"btn btn-default\" value=\"delete\">Delete</button>
+        </form>
+        </div>";
     } catch (Exception $e) {
       echo "<h3>Exception" . $e . "</h3>";
     }
