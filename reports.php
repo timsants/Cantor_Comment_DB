@@ -10,6 +10,25 @@
 ?>
 
 
+
+<div class="col-md-8">
+  <form role="form" method="POST" action"view_comments.php">
+    <div class="form-group">
+      <div style="float:left;"> 
+      <label for="date_start">Date Filter (mm/dd/yyyy&#160 -</label>
+	     <input class="form-control" id="date_start" type="date" name="date_start">
+      </div>
+      <div style="float:left;">
+      <label for="date_end">&#160mm/dd/yyyy)</label>
+	     <input class="form-control" id="date_end" type="date" name="date_end">
+      </div>
+    </div>
+				<div style="clear:both;"></div>
+				<br>
+    <button type="submit" class="btn btn-default">Go</button>
+  </form>
+</div>
+
 <div class="row">
 
   
@@ -17,10 +36,21 @@
 <?php
     try {
       $db->beginTransaction();
-      $query = "Select count(*) from Comments;";
+						$start = $_POST["date_start"];
+      $end = $_POST["date_end"];
+						$date_query = NULL;
+						if($start and $end) { 
+						  $date_query = " WHERE Date BETWEEN '" . $start . "' AND '" . $end . "'";
+						} elseif ($start) {
+						  $date_query = " WHERE Date > '" . $start . "'";
+						} elseif ($end) {
+						  $date_query = " WHERE Date < '" . $end . "'";
+						}
+      $query = "Select count(*) from Comments" . $date_query . ";";
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
+				  echo "<div style=\"clear:both;\"></div>";
       echo "<h3>Total number comment cards: " . $count . "</h3>";
     } catch (Exception $e) {
       echo "<h3>Exception" . $e . "</h3>";
@@ -33,93 +63,116 @@
 
 <?php
     try {
+						$start = $_POST["date_start"];
+      $end = $_POST["date_end"];
+						$date_query = NULL;
+						if($start and $end) { 
+						  $date_query = " AND Date BETWEEN '" . $start . "' AND '" . $end . "'";
+						} elseif ($start) {
+						  $date_query = " AND Date > '" . $start . "'";
+						} elseif ($end) {
+						  $date_query = " AND Date < '" . $end . "'";
+						}
       //Categories
-      $query = "Select count(*) from Comments Where Category = 'Parking';";
+      $query = "Select count(*) from Comments Where Category = 'Parking'" . $date_query . ";";
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $parking = $count;
       echo "<tr><td>Parking</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'Exhibition';";
+      $query = "Select count(*) from Comments Where Category = 'Exhibition'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $exhibition = $count;
       echo "<tr><td>Exhibition</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'Bookstore';";
+      $query = "Select count(*) from Comments Where Category = 'Bookstore'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $bookstore = $count;
       echo "<tr><td>Bookstore</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'Compliments';";
+      $query = "Select count(*) from Comments Where Category = 'Compliments'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $compliments = $count;
       echo "<tr><td>Compliments</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'E-News';";
+      $query = "Select count(*) from Comments Where Category = 'E-News'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $e_news = $count;
       echo "<tr><td>E-News</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'Building Issues';";
+      $query = "Select count(*) from Comments Where Category = 'Building Issues'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $building_issues = $count;
       echo "<tr><td>Building Issues</td><td>" . $count . "</td></tr>";
-      $query = "Select count(*) from Comments Where Category = 'Security';";
+      $query = "Select count(*) from Comments Where Category = 'Security'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $security = $count;
       echo "<tr><td>Security</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Business';";
+      $query = "Select count(*) from Comments Where Category = 'Business'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $business = $count;
       echo "<tr><td>Business</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Maps/Direction';";
+      $query = "Select count(*) from Comments Where Category = 'Maps/Direction'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $maps_direction = $count;
       echo "<tr><td>Maps/Direction</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Docents';";
+      $query = "Select count(*) from Comments Where Category = 'Docents'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $docents = $count;
       echo "<tr><td>Docents</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Cafe';";
+      $query = "Select count(*) from Comments Where Category = 'Cafe'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $cafe = $count;
       echo "<tr><td>Cafe</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Complaints';";
+      $query = "Select count(*) from Comments Where Category = 'Complaints'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $complaints = $count;
       echo "<tr><td>Complaints</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Family Programs';";
+      $query = "Select count(*) from Comments Where Category = 'Family Programs'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $family_programs = $count;
       echo "<tr><td>Family Programs</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Category = 'Lost and Found';";
+      $query = "Select count(*) from Comments Where Category = 'Lost and Found'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
@@ -266,77 +319,97 @@
 
 <?php
     try {
-      $query = "Select count(*) from Comments Where Department = 'Administration';";
+						$start = $_POST["date_start"];
+      $end = $_POST["date_end"];
+						$date_query = NULL;
+						if($start and $end) { 
+						  $date_query = " AND Date BETWEEN '" . $start . "' AND '" . $end . "'";
+						} elseif ($start) {
+						  $date_query = " AND Date > '" . $start . "'";
+						} elseif ($end) {
+						  $date_query = " AND Date < '" . $end . "'";
+						}
+      $query = "Select count(*) from Comments Where Department = 'Administration'" . $date_query . ";";
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $administration = $count;
       echo "<tr><td>Administration</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Operations';";
+      $query = "Select count(*) from Comments Where Department = 'Operations'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $operations = $count;
       echo "<tr><td>Operations</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Curatorial Staff';";
+      $query = "Select count(*) from Comments Where Department = 'Curatorial Staff'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $curatorial_staff = $count;
       echo "<tr><td>Curatorial Staff</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Curatorial Assistants';";
+      $query = "Select count(*) from Comments Where Department = 'Curatorial Assistants'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $curatorial_assistants = $count;
       echo "<tr><td>Curatorial Assistants</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Education Staff';";
+      $query = "Select count(*) from Comments Where Department = 'Education Staff'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $education_staff = $count;
       echo "<tr><td>Education Staff</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'External Relations Staff';";
+      $query = "Select count(*) from Comments Where Department = 'External Relations Staff'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $external_relations_staff = $count;
       echo "<tr><td>External Relations Staff</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Collections';";
+      $query = "Select count(*) from Comments Where Department = 'Collections'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $collections = $count;
       echo "<tr><td>Collections</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Art Preparotors';";
+      $query = "Select count(*) from Comments Where Department = 'Art Preparotors'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $art_preparotors = $count;
       echo "<tr><td>Art Preparotors</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Rights and Reproductions';";
+      $query = "Select count(*) from Comments Where Department = 'Rights and Reproductions'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $rights_and_reproductions = $count;
       echo "<tr><td>Rights and Reproductions</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'CAC Internal (Administration)';";
+      $query = "Select count(*) from Comments Where Department = 'CAC Internal (Administration)'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
       $cac_internal = $count;
       echo "<tr><td>CAC Internal (Administration)</td><td>" . $count . "</td></tr>";
       
-      $query = "Select count(*) from Comments Where Department = 'Security';";
+      $query = "Select count(*) from Comments Where Department = 'Security'" . $date_query . ";";
+
       $result = $db->query($query);
       $row = $result->fetch();
       $count = $row[0];
