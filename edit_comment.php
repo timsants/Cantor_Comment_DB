@@ -31,14 +31,15 @@
     $assignee_email = $_POST["assignee_email"];
     $contact_date = $_POST["contact_date"];
     $follow_up_date = $_POST["follow_up_date"];
+    $staffResponse = $_POST["staffResponse"];
     $query = "update Comments set Date=\"" . $date . "\", CommentText=\"" . 
     			$commenttext . "\", Name=\"" . $name . "\", Telephone=\"". 
     			$telephone . "\", Email=\"" . $email . "\", Status=\"" . 
     			$status . "\", Department=\"" . $department . "\", Category=\"" . 
     			$category . "\", Assignee=\"" . $assignee . "\", AssigneeEmail=\"" . 
     			$assignee_email . "\", ContactDate=\"" . $contact_date . 
-    			"\", FollowUpDate=\"" . $follow_up_date . "\"
-              where CommentID=" . $commentID;
+    			"\", FollowUpDate=\"" . $follow_up_date . "\", StaffResponse=\"" . 
+       $staffResponse . "\" where CommentID=" . $commentID;
     try {
       $db->beginTransaction();
       $result = $db->query($query);
@@ -86,6 +87,7 @@
       $contact_date = $row["ContactDate"];
       $follow_up_date = $row["FollowUpDate"];
       $category = $row["Category"];
+      $staffResponse = $row["StaffResponse"];
       echo "<form role=\"form\" method=\"POST\">";
       echo "<br><input type=\"hidden\" name=\"commentID\" value=\"" . $commentID . "\">";
       echo "<div class=\"row\">";
@@ -159,9 +161,13 @@
       echo "</div>";
       echo "</div>";
       echo "<div class=\"row\">";
-      echo "<div class=\"col-md-6\">";
-      echo "<strong>Comment</strong>";
-      echo "</br><textarea rows=\"5\" name=\"comment\">" . $comment . "</textarea>";
+      echo "<div class=\"col-md-4\">";
+      echo "<strong>Visitor's Comment</strong>";
+      echo "</br><textarea rows=\"5\" cols=\"40\" name=\"comment\">" . $comment . "</textarea>";
+      echo "</div>";
+      echo "<div class=\"col-md-4\">";
+      echo "<strong>CAC Staff Response</strong>";
+      echo "</br><textarea rows=\"5\" cols=\"40\" name=\"staffResponse\">" . $staffResponse . "</textarea>";
       echo "</div>";
       echo "</div>";
       echo "

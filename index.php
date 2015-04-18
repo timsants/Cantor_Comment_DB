@@ -33,8 +33,12 @@
       <input class="form-control" type="email" id="emailinput" name="email">
 	   </div>
     <div class="form-group">	  
-      <label for="commentinput">Comment</label>
+      <label for="commentinput">Visitor's Comment</label>
       <textarea rows="5" class="form-control" id="commentinput" name="comment"></textarea>
+    </div>	  
+    <div class="form-group">	  
+      <label for="staffResponseInput">CAC Staff Response</label>
+      <textarea rows="5" class="form-control" id="staffResponseInput" name="staffResponse"></textarea>
     </div>	  
     <div class="form-group">
       <label for="statusinput">Status</label>
@@ -124,7 +128,8 @@
     $send_notification = isset($_POST["send_notification"]);
     $contact_date = $_POST["staffcontactdate"];
     $follow_up_date = $_POST["stafffollowupdate"];
-    $query = "insert into Comments(Date, CommentText, Name, Telephone, Email, Status, Department, Category, Assignee, AssigneeEmail, ContactDate, FollowUpDate) values( \"" . $date . "\", \"" . $comment_text . "\", \"" . $name . "\", \"". $telephone . "\", \"" . $email . "\", \"" . $status . "\", \"" . $department . "\", \"" . $category . "\", \"" . $assignee . "\", \"" . $assignee_email . "\", \"" . $contact_date . "\", \"" . $follow_up_date . "\")";
+    $staffResponse = $_POST["staffResponse"];
+    $query = "insert into Comments(Date, CommentText, Name, Telephone, Email, Status, Department, Category, Assignee, AssigneeEmail, ContactDate, FollowUpDate, StaffResponse) values( \"" . $date . "\", \"" . $comment_text . "\", \"" . $name . "\", \"". $telephone . "\", \"" . $email . "\", \"" . $status . "\", \"" . $department . "\", \"" . $category . "\", \"" . $assignee . "\", \"" . $assignee_email . "\", \"" . $contact_date . "\", \"" . $follow_up_date . "\", \"" . $staffResponse . "\")";
     try {
       $db->beginTransaction();
       $result = $db->query($query);

@@ -34,6 +34,7 @@
       $contact_date = $row["ContactDate"];
       $follow_up_date = $row["FollowUpDate"];
       $category = $row["Category"];
+      $staffResponse = $row["StaffResponse"];
       echo "<div class=\"row\">";
       echo "<div class=\"col-md-4\">";
       echo "<strong>Vistor info</strong>";
@@ -63,9 +64,13 @@
       echo "</div>";
       echo "</div>";
       echo "<div class=\"row\">";
-      echo "<div class=\"col-md-6\">";
-      echo "<strong>Comment</strong>";
+      echo "<div class=\"col-md-4\">";
+      echo "<strong>Visitor's Comment</strong>";
       echo "<p>". $comment . "</p>";
+      echo "</div>";
+      echo "<div class=\"col-md-4\">";
+      echo "<strong>CAC Staff Response</strong>";
+      echo "<p>". $staffResponse . "</p>";
       echo "</div>";
       echo "</div>";
       echo "
